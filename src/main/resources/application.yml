@@ -1,0 +1,22 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DATABASE_URL}
+    hikari:
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+  flyway:
+    url: ${spring.datasource.url}
+    schemas: public
+    user: ${spring.datasource.hikari.username}
+    password: ${spring.datasource.hikari.password}
