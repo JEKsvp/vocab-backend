@@ -4,7 +4,7 @@ BEGIN;
 CREATE TABLE IF NOT EXISTS users
 (
     id uuid NOT NULL,
-    username character varying(255) NOT NULL,
+    username character varying(255) NOT NULL UNIQUE,
     password character varying(255) NOT NULL,
     create_date timestamp NOT NULL,
     last_update_date timestamp NOT NULL,

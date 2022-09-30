@@ -1,5 +1,6 @@
 package com.abadeksvp.vocabbackend.service.impl;
 
+import com.abadeksvp.vocabbackend.exceptions.ApiException;
 import com.abadeksvp.vocabbackend.mapper.SignUpRequestAndUserMapper;
 import com.abadeksvp.vocabbackend.mapper.UserToUserResponseMapper;
 import com.abadeksvp.vocabbackend.model.api.SignUpRequest;
@@ -7,7 +8,10 @@ import com.abadeksvp.vocabbackend.model.api.UserResponse;
 import com.abadeksvp.vocabbackend.model.db.User;
 import com.abadeksvp.vocabbackend.repository.UserRepository;
 import com.abadeksvp.vocabbackend.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,7 +36,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getUsers() {
-        return null;
+    public Optional<UserResponse> findByUserName(String username) {
+        return userRepository.findByUsername(username)
+                .map(userToUserResponse::map);
     }
+
 }

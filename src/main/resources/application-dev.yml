@@ -17,3 +17,6 @@ spring:
     schemas: public
     user: ${spring.datasource.hikari.username}
     password: ${spring.datasource.hikari.password}
+logging:
+  level:
+    root: debug

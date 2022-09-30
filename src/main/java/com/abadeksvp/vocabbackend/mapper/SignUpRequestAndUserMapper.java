@@ -3,8 +3,8 @@ package com.abadeksvp.vocabbackend.mapper;
 import com.abadeksvp.vocabbackend.model.api.SignUpRequest;
 import com.abadeksvp.vocabbackend.model.db.User;
 import com.abadeksvp.vocabbackend.service.DateTimeGenerator;
-import com.abadeksvp.vocabbackend.service.UuidGenerator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class SignUpRequestAndUserMapper implements Mapper<SignUpRequest, User>{
 
     private final DateTimeGenerator dateTimeGenerator;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public SignUpRequestAndUserMapper(DateTimeGenerator dateTimeGenerator) {
         this.dateTimeGenerator = dateTimeGenerator;
