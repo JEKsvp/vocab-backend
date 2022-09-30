@@ -29,8 +29,6 @@ CREATE TABLE IF NOT EXISTS definitions
     id uuid NOT NULL,
     word_id uuid NOT NULL,
     definition text NOT NULL,
-    create_date timestamp NOT NULL,
-    last_update_date timestamp NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_definitions_words FOREIGN KEY (word_id) REFERENCES words(id)
 );
@@ -40,8 +38,6 @@ CREATE TABLE IF NOT EXISTS examples
     id uuid NOT NULL,
     definition_id uuid NOT NULL,
     example text,
-    create_date timestamp NOT NULL,
-    last_update_date timestamp NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_examples_definitions FOREIGN KEY (definition_id) REFERENCES definitions(id)
 );

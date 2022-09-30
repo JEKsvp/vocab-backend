@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 
 import static com.abadeksvp.vocabbackend.integration.configuration.helpers.TestUserManager.DEFAULT_TEST_USERNAME;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
