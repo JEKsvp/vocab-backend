@@ -1,5 +1,4 @@
-package com.abadeksvp.vocabbackend.model.db;
-
+package com.abadeksvp.vocabbackend.model.api.word.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Definition {
-
+public class DefinitionResponse {
     private String definition;
-
     private List<String> examples;
 }
