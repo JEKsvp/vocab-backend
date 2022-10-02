@@ -1,4 +1,4 @@
-package com.abadeksvp.vocabbackend.integration.configuration.helpers;
+package com.abadeksvp.vocabbackend.integration.helpers;
 
 import com.abadeksvp.vocabbackend.model.api.SignUpRequest;
 import com.abadeksvp.vocabbackend.model.api.UserResponse;

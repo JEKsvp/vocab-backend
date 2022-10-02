@@ -11,6 +11,7 @@ import com.abadeksvp.vocabbackend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.Optional;
 
 @Service
@@ -30,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse signUp(SignUpRequest request) {
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new ApiException(MessageFormat.format("User with username {0} already exists.", request.getUsername()), HttpStatus.CONFLICT);
+        }
         User newUser = createUserRequestToUser.map(request);
         User createdUser = userRepository.save(newUser);
         return userToUserResponse.map(createdUser);

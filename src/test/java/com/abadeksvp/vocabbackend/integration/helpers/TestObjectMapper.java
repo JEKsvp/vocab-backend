@@ -1,4 +1,4 @@
-package com.abadeksvp.vocabbackend.integration.configuration.helpers;
+package com.abadeksvp.vocabbackend.integration.helpers;
 
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 

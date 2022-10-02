@@ -1,21 +1,16 @@
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-  datasource:
-    url: jdbc:postgresql://localhost:5432/vocab_dev
-    hikari:
-      username: vocab_dev
-      password: asdcxz123
+  data:
+    mongodb:
+      database: embeded_db
+      uri: localhost
   flyway:
     url: ${spring.datasource.url}
     schemas: public
     user: ${spring.datasource.hikari.username}
     password: ${spring.datasource.hikari.password}
-
+  mongodb:
+    embedded:
+      version: 5.0.12
 
 logging:
   level:

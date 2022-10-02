@@ -1,6 +1,6 @@
 package com.abadeksvp.vocabbackend.integration.configuration;
 
-import com.abadeksvp.vocabbackend.integration.configuration.helpers.TestUserManager;
+import com.abadeksvp.vocabbackend.integration.helpers.TestUserManager;
 import com.abadeksvp.vocabbackend.service.DateTimeGenerator;
 import com.abadeksvp.vocabbackend.service.UserService;
 import com.abadeksvp.vocabbackend.service.UuidGenerator;

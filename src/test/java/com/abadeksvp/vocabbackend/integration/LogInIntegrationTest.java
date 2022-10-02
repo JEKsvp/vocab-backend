@@ -3,8 +3,8 @@ package com.abadeksvp.vocabbackend.integration;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import static com.abadeksvp.vocabbackend.integration.configuration.helpers.TestUserManager.DEFAULT_TEST_PASSWORD;
-import static com.abadeksvp.vocabbackend.integration.configuration.helpers.TestUserManager.DEFAULT_TEST_USERNAME;
+import static com.abadeksvp.vocabbackend.integration.helpers.TestUserManager.DEFAULT_TEST_PASSWORD;
+import static com.abadeksvp.vocabbackend.integration.helpers.TestUserManager.DEFAULT_TEST_USERNAME;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
