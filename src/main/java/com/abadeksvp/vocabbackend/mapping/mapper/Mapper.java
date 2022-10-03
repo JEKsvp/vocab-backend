@@ -1,4 +1,4 @@
-package com.abadeksvp.vocabbackend.mapper;
+package com.abadeksvp.vocabbackend.mapping.mapper;
 
 import java.util.Collection;
 import java.util.List;

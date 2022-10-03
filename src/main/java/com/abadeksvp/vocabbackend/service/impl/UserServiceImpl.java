@@ -1,8 +1,8 @@
 package com.abadeksvp.vocabbackend.service.impl;
 
 import com.abadeksvp.vocabbackend.exceptions.ApiException;
-import com.abadeksvp.vocabbackend.mapper.SignUpRequestAndUserMapper;
-import com.abadeksvp.vocabbackend.mapper.UserToUserResponseMapper;
+import com.abadeksvp.vocabbackend.mapping.mapper.SignUpRequestAndUserMapper;
+import com.abadeksvp.vocabbackend.mapping.mapper.UserToUserResponseMapper;
 import com.abadeksvp.vocabbackend.model.api.SignUpRequest;
 import com.abadeksvp.vocabbackend.model.api.UserResponse;
 import com.abadeksvp.vocabbackend.model.db.User;

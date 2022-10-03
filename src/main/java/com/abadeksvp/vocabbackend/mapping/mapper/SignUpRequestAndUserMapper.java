@@ -1,5 +1,6 @@
-package com.abadeksvp.vocabbackend.mapper;
+package com.abadeksvp.vocabbackend.mapping.mapper;
 
+import com.abadeksvp.vocabbackend.mapping.mapper.Mapper;
 import com.abadeksvp.vocabbackend.model.api.SignUpRequest;
 import com.abadeksvp.vocabbackend.model.db.User;
 import com.abadeksvp.vocabbackend.service.DateTimeGenerator;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-public class SignUpRequestAndUserMapper implements Mapper<SignUpRequest, User>{
+public class SignUpRequestAndUserMapper implements Mapper<SignUpRequest, User> {
 
     private final DateTimeGenerator dateTimeGenerator;
     private final UuidGenerator uuidGenerator;

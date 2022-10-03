@@ -1,4 +1,4 @@
-package com.abadeksvp.vocabbackend.mapper;
+package com.abadeksvp.vocabbackend.mapping.mapper;
 
 import com.abadeksvp.vocabbackend.model.api.word.response.WordResponse;
 import com.abadeksvp.vocabbackend.model.db.Word;
