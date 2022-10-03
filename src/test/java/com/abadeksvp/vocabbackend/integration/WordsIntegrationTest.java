@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.testcontainers.shaded.com.google.common.base.Charsets;
@@ -24,16 +25,16 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
     private TestUuidGenerator uuidGenerator;
 
     @Test
-    @WithMockUser(DEFAULT_TEST_USERNAME)
     public void integrationTest() throws Exception {
         testUserManager.signUpDefaultTestUser();
-
+        HttpHeaders authHeader = testUserManager.obtainDefaultUserHeader();
         UUID WORD_UUID = UUID.fromString("5d764a34-04c7-4878-a676-8574f9a336a4");
         uuidGenerator.setUuid(WORD_UUID);
 
         String createWordRequest = IOUtils.toString(getClass().getResource("/request/words/create-word-request.json"), Charsets.UTF_8);
         String actualCreateWordResponse = mockMvc.perform(post("/v1/words")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(authHeader)
                         .content(createWordRequest))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -44,6 +45,7 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
         String updateWordRequest = IOUtils.toString(getClass().getResource("/request/words/update-word-request.json"), Charsets.UTF_8);
         String actualUpdateWordResponse = mockMvc.perform(put("/v1/words")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(authHeader)
                         .content(updateWordRequest))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -53,6 +55,7 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
         String changeStatusRequest = IOUtils.toString(getClass().getResource("/request/words/change-status-request.json"), Charsets.UTF_8);
         String actualChangeStatusWordResponse = mockMvc.perform(patch("/v1/words/status")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(authHeader)
                         .content(changeStatusRequest))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
