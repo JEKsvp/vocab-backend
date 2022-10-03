@@ -1,5 +1,6 @@
 package com.abadeksvp.vocabbackend.integration.configuration;
 
+import com.abadeksvp.vocabbackend.integration.helpers.TestDateTimeGenerator;
 import com.abadeksvp.vocabbackend.integration.helpers.TestUserManager;
 import com.abadeksvp.vocabbackend.integration.helpers.TestUuidGenerator;
 import com.abadeksvp.vocabbackend.service.DateTimeGenerator;
@@ -15,12 +16,9 @@ import java.util.UUID;
 @TestConfiguration
 public class IntegrationTestsConfiguration {
 
-
-    public static final LocalDateTime TEST_DATE_TIME = LocalDateTime.of(2022, 9, 25, 22, 30, 40);
-
     @Bean
     public DateTimeGenerator dateTimeGenerator() {
-        return () -> TEST_DATE_TIME;
+        return new TestDateTimeGenerator();
     }
 
     @Bean

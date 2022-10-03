@@ -1,7 +1,11 @@
 package com.abadeksvp.vocabbackend.controller;
 
+import com.abadeksvp.vocabbackend.model.api.PageableFilter;
+import com.abadeksvp.vocabbackend.model.api.paging.PageableDto;
 import com.abadeksvp.vocabbackend.model.api.word.request.ChangeWordStatusRequest;
-import com.abadeksvp.vocabbackend.model.api.word.request.UpsertWordRequest;
+import com.abadeksvp.vocabbackend.model.api.word.request.CreateWordRequest;
+import com.abadeksvp.vocabbackend.model.api.word.request.UpdateWordRequest;
+import com.abadeksvp.vocabbackend.model.api.word.request.WordsFilter;
 import com.abadeksvp.vocabbackend.model.api.word.response.WordResponse;
 import com.abadeksvp.vocabbackend.service.WordService;
 import org.springframework.http.MediaType;
@@ -19,18 +23,23 @@ public class WordController {
         this.wordService = wordService;
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public PageableDto<WordResponse> getWordsToLearn(@Valid WordsFilter filter) {
+        return wordService.getWords(filter);
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public WordResponse createWord(@RequestBody @Valid UpsertWordRequest request) {
+    public WordResponse createWord(@RequestBody @Valid CreateWordRequest request) {
         return wordService.createWord(request);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public WordResponse updateWord(@RequestBody @Valid UpsertWordRequest request) {
+    public WordResponse updateWord(@RequestBody @Valid UpdateWordRequest request) {
         return wordService.updateWord(request);
     }
 
     @PatchMapping(value = "/status", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public WordResponse updateWord(@RequestBody @Valid ChangeWordStatusRequest request) {
+    public WordResponse changeStatus(@RequestBody @Valid ChangeWordStatusRequest request) {
         return wordService.changeWordStatus(request);
     }
 }

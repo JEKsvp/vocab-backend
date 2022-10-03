@@ -4,16 +4,24 @@ import com.abadeksvp.vocabbackend.exceptions.ApiException;
 import com.abadeksvp.vocabbackend.mapping.creator.WordCreator;
 import com.abadeksvp.vocabbackend.mapping.mapper.WordToWordResponseMapper;
 import com.abadeksvp.vocabbackend.mapping.updater.WordUpdater;
+import com.abadeksvp.vocabbackend.model.api.paging.PageableDto;
 import com.abadeksvp.vocabbackend.model.api.word.request.ChangeWordStatusRequest;
-import com.abadeksvp.vocabbackend.model.api.word.request.UpsertWordRequest;
+import com.abadeksvp.vocabbackend.model.api.word.request.CreateWordRequest;
+import com.abadeksvp.vocabbackend.model.api.word.request.UpdateWordRequest;
+import com.abadeksvp.vocabbackend.model.api.word.request.WordsFilter;
 import com.abadeksvp.vocabbackend.model.api.word.response.WordResponse;
+import com.abadeksvp.vocabbackend.model.db.QWord;
 import com.abadeksvp.vocabbackend.model.db.Word;
 import com.abadeksvp.vocabbackend.repository.WordRepository;
 import com.abadeksvp.vocabbackend.service.WordService;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.text.MessageFormat;
 
 @Service
 public class WordServiceImpl implements WordService {
@@ -32,14 +40,31 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public WordResponse createWord(UpsertWordRequest request) {
+    public PageableDto<WordResponse> getWords(WordsFilter filter) {
+        Predicate predicate = buildMongoPredicate(filter);
+        PageRequest pageRequest = PageRequest.of(filter.getPage(), filter.getSize())
+                .withSort(Sort.Direction.ASC, "lastUpdateDate");
+        Page<Word> page = wordRepository.findAll(predicate, pageRequest);
+        return new PageableDto<>(page, toWordResponseMapper::map);
+    }
+
+    private Predicate buildMongoPredicate(WordsFilter filter) {
+        BooleanExpression predicate = QWord.word.status.eq(filter.getStatus());
+        if (filter.getQ() != null) {
+            predicate.and(QWord.word.title.containsIgnoreCase(filter.getQ()));
+        }
+        return predicate;
+    }
+
+    @Override
+    public WordResponse createWord(CreateWordRequest request) {
         Word word = wordCreator.create(request);
         Word savedWord = wordRepository.save(word);
         return toWordResponseMapper.map(savedWord);
     }
 
     @Override
-    public WordResponse updateWord(UpsertWordRequest request) {
+    public WordResponse updateWord(UpdateWordRequest request) {
         Word existingWord = wordRepository.findById(request.getId())
                 .orElseThrow(() -> new ApiException("Word not found", HttpStatus.NOT_FOUND));
         Word word = wordUpdater.update(request, existingWord);

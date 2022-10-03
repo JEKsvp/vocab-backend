@@ -1,7 +1,8 @@
 package com.abadeksvp.vocabbackend.mapping.updater;
 
 import com.abadeksvp.vocabbackend.mapping.mapper.UpsertDefinitionRequestToDefinitionMapper;
-import com.abadeksvp.vocabbackend.model.api.word.request.UpsertWordRequest;
+import com.abadeksvp.vocabbackend.model.api.word.request.CreateWordRequest;
+import com.abadeksvp.vocabbackend.model.api.word.request.UpdateWordRequest;
 import com.abadeksvp.vocabbackend.model.db.Word;
 import com.abadeksvp.vocabbackend.service.DateTimeGenerator;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class WordUpdater implements Updater<UpsertWordRequest, Word>{
+public class WordUpdater implements Updater<UpdateWordRequest, Word>{
 
     private final UpsertDefinitionRequestToDefinitionMapper toDefinitionMapper;
     private final DateTimeGenerator dateTimeGenerator;
@@ -20,7 +21,7 @@ public class WordUpdater implements Updater<UpsertWordRequest, Word>{
     }
 
     @Override
-    public Word update(UpsertWordRequest request, Word existing) {
+    public Word update(UpdateWordRequest request, Word existing) {
         LocalDateTime now = dateTimeGenerator.now();
         return Word.builder()
                 .id(existing.getId())

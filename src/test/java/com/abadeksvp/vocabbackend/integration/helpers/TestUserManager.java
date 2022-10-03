@@ -44,6 +44,11 @@ public class TestUserManager {
         return userService.signUp(signUpRequest);
     }
 
+    public HttpHeaders signUpUserAndAuthHeader(){
+        signUpDefaultTestUser();
+        return obtainDefaultUserHeader();
+    }
+
     public UserResponse signUpDefaultTestUser() {
         return userService.signUp(DEFAULT_SIGNUP);
     }
