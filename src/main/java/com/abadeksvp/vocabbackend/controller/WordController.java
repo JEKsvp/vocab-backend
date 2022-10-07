@@ -43,6 +43,11 @@ public class WordController {
         wordService.deleteWord(wordId);
     }
 
+    @GetMapping("/{wordId}")
+    public WordResponse getWord(@PathVariable String wordId){
+        return wordService.getWordById(wordId);
+    }
+
     @PatchMapping(value = "/status", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public WordResponse changeStatus(@RequestBody @Valid ChangeWordStatusRequest request) {
         return wordService.changeWordStatus(request);

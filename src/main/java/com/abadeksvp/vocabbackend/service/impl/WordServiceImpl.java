@@ -58,6 +58,13 @@ public class WordServiceImpl implements WordService {
         wordRepository.deleteById(UUID.fromString(wordId));
     }
 
+    @Override
+    public WordResponse getWordById(String wordId) {
+        return wordRepository.findById(UUID.fromString(wordId))
+                .map(toWordResponseMapper::map)
+                .orElseThrow(() -> new ApiException("Word now found", HttpStatus.NOT_FOUND));
+    }
+
     private Predicate buildMongoPredicate(WordsFilter filter) {
         String username = SecurityUtils.getCurrentUserName();
         BooleanExpression predicate = QWord.word.username.eq(username);

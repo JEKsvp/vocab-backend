@@ -14,4 +14,6 @@ public interface WordService {
     WordResponse changeWordStatus(ChangeWordStatusRequest request);
     PageableDto<WordResponse> getWords(WordsFilter filter);
     void deleteWord(String wordId);
+
+    WordResponse getWordById(String wordId);
 }
