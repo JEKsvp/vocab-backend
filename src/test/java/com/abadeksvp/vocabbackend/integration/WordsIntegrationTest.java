@@ -2,6 +2,8 @@ package com.abadeksvp.vocabbackend.integration;
 
 import com.abadeksvp.vocabbackend.integration.helpers.TestDateTimeGenerator;
 import com.abadeksvp.vocabbackend.integration.helpers.TestUuidGenerator;
+import com.abadeksvp.vocabbackend.model.api.SignUpRequest;
+import com.abadeksvp.vocabbackend.model.api.UserResponse;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 import static com.abadeksvp.vocabbackend.integration.helpers.TestDateTimeGenerator.FORMATTER;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class WordsIntegrationTest extends AbstractIntegrationTest {
@@ -88,6 +91,36 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
 
         String expectedAllLearnedWordsResponse = IOUtils.toString(getClass().getResource("/response/words/get-learned-words-response.json"), Charsets.UTF_8);
         JSONAssert.assertEquals(expectedAllLearnedWordsResponse, actualAllLearnedWordsResponse, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    public void returnOnlyUsersWords() throws Exception {
+        UserResponse user1 = testUserManager.signUp(SignUpRequest.builder()
+                .username("aaaaaa")
+                .password("aaaaaa")
+                .build());
+        HttpHeaders authHeader1 = testUserManager.obtainAuthHeader("aaaaaa", "aaaaaa");
+
+        UserResponse user2 = testUserManager.signUp(SignUpRequest.builder()
+                .username("aaaaab")
+                .password("aaaaab")
+                .build());
+        HttpHeaders authHeader2 = testUserManager.obtainAuthHeader("aaaaab", "aaaaab");
+
+        createWordGlow(authHeader1);
+        createWordFinish(authHeader2);
+
+        mockMvc.perform(get("/v1/words")
+                        .headers(authHeader1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()").value(1))
+                .andExpect(jsonPath("$.data[*].id").value(GLOW_WORD_ID.toString()));
+
+        mockMvc.perform(get("/v1/words")
+                        .headers(authHeader2))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()").value(1))
+                .andExpect(jsonPath("$.data[*].id").value(FINISH_WORD_ID.toString()));
 
     }
 

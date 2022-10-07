@@ -23,6 +23,7 @@ public class Word {
 
     @Id
     private UUID id;
+    private String username;
     private String title;
     private String transcription;
     private String part;

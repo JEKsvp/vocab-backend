@@ -18,6 +18,6 @@ public class WordsFilter extends PageableFilter {
     @Nullable
     private String q;
 
-    @NotNull
+    @Nullable
     private WordStatus status;
 }

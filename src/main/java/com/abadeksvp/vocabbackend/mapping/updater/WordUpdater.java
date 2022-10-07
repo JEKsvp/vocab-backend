@@ -25,6 +25,7 @@ public class WordUpdater implements Updater<UpdateWordRequest, Word>{
         LocalDateTime now = dateTimeGenerator.now();
         return Word.builder()
                 .id(existing.getId())
+                .username(existing.getUsername())
                 .title(request.getTitle())
                 .transcription(request.getTranscription())
                 .part(request.getPart())

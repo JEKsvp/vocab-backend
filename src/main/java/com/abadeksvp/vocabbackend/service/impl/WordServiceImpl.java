@@ -13,6 +13,7 @@ import com.abadeksvp.vocabbackend.model.api.word.response.WordResponse;
 import com.abadeksvp.vocabbackend.model.db.QWord;
 import com.abadeksvp.vocabbackend.model.db.Word;
 import com.abadeksvp.vocabbackend.repository.WordRepository;
+import com.abadeksvp.vocabbackend.security.SecurityUtils;
 import com.abadeksvp.vocabbackend.service.WordService;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -32,7 +33,9 @@ public class WordServiceImpl implements WordService {
     private final WordToWordResponseMapper toWordResponseMapper;
 
     public WordServiceImpl(WordRepository wordRepository,
-                           WordCreator wordCreator, WordUpdater wordUpdater, WordToWordResponseMapper toWordResponseMapper) {
+                           WordCreator wordCreator,
+                           WordUpdater wordUpdater,
+                           WordToWordResponseMapper toWordResponseMapper) {
         this.wordRepository = wordRepository;
         this.wordCreator = wordCreator;
         this.wordUpdater = wordUpdater;
@@ -49,9 +52,13 @@ public class WordServiceImpl implements WordService {
     }
 
     private Predicate buildMongoPredicate(WordsFilter filter) {
-        BooleanExpression predicate = QWord.word.status.eq(filter.getStatus());
+        String username = SecurityUtils.getCurrentUserName();
+        BooleanExpression predicate = QWord.word.username.eq(username);
+        if (filter.getStatus() != null) {
+            predicate = predicate.and(QWord.word.status.eq(filter.getStatus()));
+        }
         if (filter.getQ() != null) {
-            predicate.and(QWord.word.title.containsIgnoreCase(filter.getQ()));
+            predicate = predicate.and(QWord.word.title.containsIgnoreCase(filter.getQ()));
         }
         return predicate;
     }

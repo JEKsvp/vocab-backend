@@ -54,14 +54,14 @@ public class TestUserManager {
     }
 
     @SneakyThrows
-    public String obtainAccessToken(MockMvc mockMvc, String login, String password) {
+    public String obtainAccessToken(String login, String password) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
         params.add("username", login);
         params.add("password", password);
 
         ResultActions result
-                = mockMvc.perform(post("/oauth/token")
+                = this.mockMvc.perform(post("/oauth/token")
                         .params(params)
                         .with(httpBasic(CLIENT_ID, SECRET))
                         .accept(MediaType.APPLICATION_JSON))
@@ -77,7 +77,7 @@ public class TestUserManager {
     @SneakyThrows
     public HttpHeaders obtainAuthHeader(String login, String password) {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        String token = obtainAccessToken(mockMvc, login, password);
+        String token = obtainAccessToken(login, password);
         map.add("Authorization", "Bearer " + token);
         return new HttpHeaders(map);
     }
