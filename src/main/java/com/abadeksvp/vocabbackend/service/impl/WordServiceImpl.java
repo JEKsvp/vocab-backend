@@ -48,7 +48,7 @@ public class WordServiceImpl implements WordService {
     public PageableDto<WordResponse> getWords(WordsFilter filter) {
         Predicate predicate = buildMongoPredicate(filter);
         PageRequest pageRequest = PageRequest.of(filter.getPage(), filter.getSize())
-                .withSort(Sort.Direction.ASC, "lastUpdateDate");
+                .withSort(Sort.Direction.DESC, "lastUpdateDate");
         Page<Word> page = wordRepository.findAll(predicate, pageRequest);
         return new PageableDto<>(page, toWordResponseMapper::map);
     }
