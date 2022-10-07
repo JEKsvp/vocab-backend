@@ -24,6 +24,8 @@ import org.springframework.data.querydsl.QSort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class WordServiceImpl implements WordService {
 
@@ -49,6 +51,11 @@ public class WordServiceImpl implements WordService {
                 .withSort(Sort.Direction.ASC, "lastUpdateDate");
         Page<Word> page = wordRepository.findAll(predicate, pageRequest);
         return new PageableDto<>(page, toWordResponseMapper::map);
+    }
+
+    @Override
+    public void deleteWord(String wordId) {
+        wordRepository.deleteById(UUID.fromString(wordId));
     }
 
     private Predicate buildMongoPredicate(WordsFilter filter) {
