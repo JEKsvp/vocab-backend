@@ -2,6 +2,7 @@ package com.abadeksvp.vocabbackend.integration;
 
 import com.abadeksvp.vocabbackend.integration.helpers.TestDateTimeGenerator;
 import com.abadeksvp.vocabbackend.integration.helpers.TestUuidGenerator;
+import com.abadeksvp.vocabbackend.integration.helpers.TestWordManager;
 import com.abadeksvp.vocabbackend.model.api.SignUpRequest;
 import com.abadeksvp.vocabbackend.model.api.UserResponse;
 import org.apache.commons.io.IOUtils;
@@ -38,6 +39,9 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private TestDateTimeGenerator dateTimeGenerator;
+
+    @Autowired
+    private TestWordManager testWordManager;
 
     @Test
     public void createAndChangeWordTest() throws Exception {
@@ -129,7 +133,6 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
         createWord(authHeader,
                 GLOW_WORD_ID,
                 "/request/words/create-word-glow-request.json",
-                "/response/words/create-word-glow-response.json",
                 GLOW_WORD_DATE_TIME);
     }
 
@@ -137,7 +140,6 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
         createWord(authHeader,
                 STOP_WORD_ID,
                 "/request/words/create-word-stop-request.json",
-                "/response/words/create-word-stop-response.json",
                 STOP_WORD_DATE_TIME);
     }
 
@@ -145,7 +147,6 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
         createWord(authHeader,
                 FAST_WORD_ID,
                 "/request/words/create-word-fast-request.json",
-                "/response/words/create-word-fast-response.json",
                 FAST_WORD_DATE_TIME);
     }
 
@@ -153,22 +154,12 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
         createWord(authHeader,
                 FINISH_WORD_ID,
                 "/request/words/create-word-finish-request.json",
-                "/response/words/create-word-finish-response.json",
                 FINISH_WORD_DATE_TIME);
     }
 
-    private void createWord(HttpHeaders authHeader, UUID wordId, String requestPath, String responsePath, LocalDateTime datetime) throws Exception {
+    private void createWord(HttpHeaders authHeader, UUID wordId, String requestPath, LocalDateTime datetime) throws Exception {
         uuidGenerator.setUuid(wordId);
         dateTimeGenerator.setDateTime(datetime);
-        String createWordRequest = IOUtils.toString(getClass().getResource(requestPath), Charsets.UTF_8);
-        String actualCreateWordResponse = mockMvc.perform(post("/v1/words")
-                        .param("status", "TO_LEARN")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .headers(authHeader)
-                        .content(createWordRequest))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-        String expectedCreateWordResponse = IOUtils.toString(getClass().getResource(responsePath), Charsets.UTF_8);
-        JSONAssert.assertEquals(expectedCreateWordResponse, actualCreateWordResponse, JSONCompareMode.STRICT);
+        testWordManager.createWord(authHeader, requestPath);
     }
 }

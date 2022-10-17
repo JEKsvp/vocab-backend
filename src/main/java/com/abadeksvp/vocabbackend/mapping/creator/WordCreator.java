@@ -27,7 +27,7 @@ public class WordCreator implements Creator<CreateWordRequest, Word> {
 
     @Override
     public Word create(CreateWordRequest request) {
-        String username = SecurityUtils.getCurrentUserName();
+        String username = SecurityUtils.getCurrentUsername();
         LocalDateTime now = dateTimeGenerator.now();
         return Word.builder()
                 .id(uuidGenerator.generate())

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SecurityUtils {
 
-    public static String getCurrentUserName() {
+    public static String getCurrentUsername() {
         SecurityContext context = SecurityContextHolder.getContext();
         return context.getAuthentication().getName();
     }

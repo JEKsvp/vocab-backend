@@ -3,6 +3,7 @@ package com.abadeksvp.vocabbackend.integration.configuration;
 import com.abadeksvp.vocabbackend.integration.helpers.TestDateTimeGenerator;
 import com.abadeksvp.vocabbackend.integration.helpers.TestUserManager;
 import com.abadeksvp.vocabbackend.integration.helpers.TestUuidGenerator;
+import com.abadeksvp.vocabbackend.integration.helpers.TestWordManager;
 import com.abadeksvp.vocabbackend.service.DateTimeGenerator;
 import com.abadeksvp.vocabbackend.service.UserService;
 import com.abadeksvp.vocabbackend.service.UuidGenerator;
@@ -29,5 +30,10 @@ public class IntegrationTestsConfiguration {
     @Bean
     public TestUserManager testUserManager(UserService userService, MockMvc mockMvc) {
         return new TestUserManager(userService, mockMvc);
+    }
+
+    @Bean
+    public TestWordManager testWordManager(MockMvc mockMvc) {
+        return new TestWordManager(mockMvc);
     }
 }

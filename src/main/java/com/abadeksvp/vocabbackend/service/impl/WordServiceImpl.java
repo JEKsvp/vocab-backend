@@ -20,7 +20,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.querydsl.QSort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +65,7 @@ public class WordServiceImpl implements WordService {
     }
 
     private Predicate buildMongoPredicate(WordsFilter filter) {
-        String username = SecurityUtils.getCurrentUserName();
+        String username = SecurityUtils.getCurrentUsername();
         BooleanExpression predicate = QWord.word.username.eq(username);
         if (filter.getStatus() != null) {
             predicate = predicate.and(QWord.word.status.eq(filter.getStatus()));

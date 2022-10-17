@@ -5,10 +5,6 @@ import com.abadeksvp.vocabbackend.model.api.UserResponse;
 import com.abadeksvp.vocabbackend.security.SecurityUtils;
 import com.abadeksvp.vocabbackend.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +19,7 @@ public class UserController {
 
     @GetMapping("/v1/current-user")
     public UserResponse getCurrentUser() {
-        String userName = SecurityUtils.getCurrentUserName();
+        String userName = SecurityUtils.getCurrentUsername();
         return userService.findByUserName(userName)
                 .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
     }
