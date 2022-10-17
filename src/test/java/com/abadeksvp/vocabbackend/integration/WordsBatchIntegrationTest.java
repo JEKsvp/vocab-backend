@@ -79,12 +79,12 @@ public class WordsBatchIntegrationTest extends AbstractIntegrationTest {
         long toLearnCount = firstBatch.stream()
                 .filter(word -> WordStatus.TO_LEARN == word.getStatus())
                 .count();
-        assertEquals(9, toLearnCount);
+        assertEquals(7, toLearnCount);
 
         long learnedCount = firstBatch.stream()
                 .filter(word -> WordStatus.LEARNED == word.getStatus())
                 .count();
-        assertEquals(1, learnedCount);
+        assertEquals(3, learnedCount);
     }
 
 }

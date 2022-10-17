@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class WordsBatchServiceImpl implements WordsBatchService {
 
-    private static final double TO_LEARN_PERCENTAGE = 0.9;
+    private static final double TO_LEARN_PERCENTAGE = 0.71;
     private static final double LEARNED_PERCENTAGE = 1 - TO_LEARN_PERCENTAGE;
 
     private final WordRepository wordRepository;
