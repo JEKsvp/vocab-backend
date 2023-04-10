@@ -36,6 +36,7 @@ public class WordCreator implements Creator<CreateWordRequest, Word> {
                 .transcription(request.getTranscription())
                 .part(request.getPart())
                 .status(request.getStatus())
+                .language(request.getLanguage())
                 .definitions(toDefinitionMapper.mapAll(request.getDefinitions()))
                 .createDate(now)
                 .lastUpdateDate(now)

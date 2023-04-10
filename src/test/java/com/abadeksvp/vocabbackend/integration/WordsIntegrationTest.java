@@ -28,11 +28,13 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
     public static final UUID STOP_WORD_ID = UUID.fromString("5d764a34-04c7-4878-a676-8574f9a336a5");
     public static final UUID FAST_WORD_ID = UUID.fromString("5d764a34-04c7-4878-a676-8574f9a336a6");
     public static final UUID FINISH_WORD_ID = UUID.fromString("5d764a34-04c7-4878-a676-8574f9a336a7");
+    public static final UUID SERBIAN_WORD_ID = UUID.fromString("5d764a34-04c7-4878-a676-8574f9a336a8");
 
     public static final LocalDateTime GLOW_WORD_DATE_TIME = LocalDateTime.parse("2022-09-25 22:30:40", FORMATTER);
     public static final LocalDateTime STOP_WORD_DATE_TIME = LocalDateTime.parse("2022-09-26 22:30:40", FORMATTER);
     public static final LocalDateTime FAST_WORD_DATE_TIME = LocalDateTime.parse("2022-09-27 22:30:40", FORMATTER);
     public static final LocalDateTime FINISH_WORD_DATE_TIME = LocalDateTime.parse("2022-09-28 22:30:40", FORMATTER);
+    public static final LocalDateTime SERBIAN_WORD_DATE_TIME = LocalDateTime.parse("2022-09-29 22:30:40", FORMATTER);
 
     @Autowired
     private TestUuidGenerator uuidGenerator;
@@ -126,6 +128,25 @@ public class WordsIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.data.length()").value(1))
                 .andExpect(jsonPath("$.data[*].id").value(FINISH_WORD_ID.toString()));
 
+    }
+
+    @Test
+    public void createSerbianWord() throws Exception {
+        HttpHeaders authHeader = testUserManager.signUpUserAndAuthHeader();
+        createWord(authHeader,
+                SERBIAN_WORD_ID,
+                "/request/words/create-serbian-word-request.json",
+                SERBIAN_WORD_DATE_TIME);
+
+        String actualAllToLearnWordsResponse = mockMvc.perform(get("/v1/words")
+                        .param("status", "TO_LEARN")
+                        .param("language", "SERBIAN")
+                        .headers(authHeader))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        String expectedAllToLearnWordsResponse = IOUtils.toString(getClass().getResource("/response/words/get-serbian-words-response.json"), Charsets.UTF_8);
+        JSONAssert.assertEquals(expectedAllToLearnWordsResponse, actualAllToLearnWordsResponse, JSONCompareMode.STRICT);
     }
 
 

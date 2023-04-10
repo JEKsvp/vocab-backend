@@ -31,6 +31,5 @@ public class Word {
     private List<Definition> definitions;
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
-
-    private UUID languageId;
+    private Language language;
 }

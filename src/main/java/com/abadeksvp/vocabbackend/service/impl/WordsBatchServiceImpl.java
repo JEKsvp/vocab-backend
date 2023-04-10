@@ -4,6 +4,7 @@ import com.abadeksvp.vocabbackend.exceptions.ApiException;
 import com.abadeksvp.vocabbackend.mapping.mapper.WordToWordResponseMapper;
 import com.abadeksvp.vocabbackend.model.WordStatus;
 import com.abadeksvp.vocabbackend.model.api.word.response.WordResponse;
+import com.abadeksvp.vocabbackend.model.db.Language;
 import com.abadeksvp.vocabbackend.model.db.Word;
 import com.abadeksvp.vocabbackend.model.db.WordsBatch;
 import com.abadeksvp.vocabbackend.repository.WordBatchRepository;
@@ -47,9 +48,9 @@ public class WordsBatchServiceImpl implements WordsBatchService {
     }
 
     @Override
-    public void generate(int size) {
+    public void generate(int size, Language language) {
         String username = SecurityUtils.getCurrentUsername();
-        List<Word> words = wordRepository.findByUsername(username);
+        List<Word> words = wordRepository.findByUsernameAndLanguage(username, language);
 
         double toLearnSize = Math.floor(size * TO_LEARN_PERCENTAGE);
         List<UUID> shuffleToLearnIds = getShuffled(words, WordStatus.TO_LEARN, toLearnSize);
@@ -60,17 +61,18 @@ public class WordsBatchServiceImpl implements WordsBatchService {
         List<UUID> resultIds = new ArrayList<>(shuffleToLearnIds);
         resultIds.addAll(shuffleLearnedIds);
 
-        WordsBatch batch = batchRepository.findByUsername(username)
-                .orElse(createNewBatch(username));
+        WordsBatch batch = batchRepository.findByUsernameAndLanguage(username, language)
+                .orElse(createNewBatch(username, language));
         batch.setWords(resultIds);
         batch.setLastUpdateDate(dateTimeGenerator.now());
         batchRepository.save(batch);
     }
 
-    private WordsBatch createNewBatch(String username) {
+    private WordsBatch createNewBatch(String username, Language language) {
         return WordsBatch.builder()
                 .id(uuidGenerator.generate())
                 .username(username)
+                .language(language)
                 .build();
     }
 
@@ -84,9 +86,9 @@ public class WordsBatchServiceImpl implements WordsBatchService {
     }
 
     @Override
-    public List<WordResponse> getBatch() {
+    public List<WordResponse> getBatch(Language language) {
         String username = SecurityUtils.getCurrentUsername();
-        WordsBatch batch = batchRepository.findByUsername(username)
+        WordsBatch batch = batchRepository.findByUsernameAndLanguage(username, language)
                 .orElseThrow(() -> new ApiException("Batch not found", HttpStatus.NOT_FOUND));
         List<Word> words = wordRepository.findAllByIdIn(batch.getWords());
         return toWordResponseMapper.mapAll(words);

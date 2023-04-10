@@ -1,6 +1,7 @@
 package com.abadeksvp.vocabbackend.model.api.word.request;
 
 import com.abadeksvp.vocabbackend.model.WordStatus;
+import com.abadeksvp.vocabbackend.model.db.Language;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +26,6 @@ public class CreateWordRequest {
     private WordStatus status;
     @NotEmpty
     private List<UpsertDefinitionRequest> definitions = new ArrayList<>();
+
+    private Language language = Language.ENGLISH;
 }

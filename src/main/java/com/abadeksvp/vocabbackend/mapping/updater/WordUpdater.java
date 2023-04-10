@@ -30,6 +30,7 @@ public class WordUpdater implements Updater<UpdateWordRequest, Word>{
                 .transcription(request.getTranscription())
                 .part(request.getPart())
                 .status(request.getStatus())
+                .language(request.getLanguage())
                 .definitions(toDefinitionMapper.mapAll(request.getDefinitions()))
                 .createDate(existing.getCreateDate())
                 .lastUpdateDate(now)

@@ -1,6 +1,7 @@
 package com.abadeksvp.vocabbackend.model.api.word.response;
 
 import com.abadeksvp.vocabbackend.model.WordStatus;
+import com.abadeksvp.vocabbackend.model.db.Language;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +27,6 @@ public class WordResponse {
     private LocalDateTime createDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime lastUpdateDate;
+
+    private Language language;
 }

@@ -24,6 +24,7 @@ public class WordToWordResponseMapper implements Mapper<Word, WordResponse> {
                 .definitions(toDefinitionResponseMapper.mapAll(word.getDefinitions()))
                 .createDate(word.getCreateDate())
                 .lastUpdateDate(word.getLastUpdateDate())
+                .language(word.getLanguage())
                 .build();
     }
 }

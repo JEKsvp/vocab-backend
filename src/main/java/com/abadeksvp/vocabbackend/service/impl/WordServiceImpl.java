@@ -10,6 +10,7 @@ import com.abadeksvp.vocabbackend.model.api.word.request.CreateWordRequest;
 import com.abadeksvp.vocabbackend.model.api.word.request.UpdateWordRequest;
 import com.abadeksvp.vocabbackend.model.api.word.request.WordsFilter;
 import com.abadeksvp.vocabbackend.model.api.word.response.WordResponse;
+import com.abadeksvp.vocabbackend.model.db.Language;
 import com.abadeksvp.vocabbackend.model.db.QWord;
 import com.abadeksvp.vocabbackend.model.db.Word;
 import com.abadeksvp.vocabbackend.repository.WordRepository;
@@ -72,6 +73,9 @@ public class WordServiceImpl implements WordService {
         }
         if (filter.getQ() != null) {
             predicate = predicate.and(QWord.word.title.containsIgnoreCase(filter.getQ()));
+        }
+        if(filter.getLanguage() != null){
+            predicate = predicate.and(QWord.word.language.eq(filter.getLanguage()));
         }
         return predicate;
     }
