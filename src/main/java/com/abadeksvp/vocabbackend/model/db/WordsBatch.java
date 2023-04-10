@@ -24,4 +24,5 @@ public class WordsBatch {
     private String username;
     private List<UUID> words;
     private LocalDateTime lastUpdateDate;
+    private UUID languageId;
 }
